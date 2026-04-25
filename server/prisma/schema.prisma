@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Society {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  Dishes    Dish[]
+  Orders    Order[]
+  Users     User[]
+}
+
+model User {
+  id          String   @id @default(uuid())
+  name        String
+  email       String   @unique
+  password    String
+  role        Role
+  societyId   String
+  isAvailable Boolean? @default(false)
+  lat         Float?
+  lng         Float?
+  createdAt   DateTime @default(now())
+  Dishes      Dish[]   @relation("ChefDishes")
+  Orders      Order[]  @relation("CustomerOrders")
+  Deliveries  Order[]  @relation("RiderOrders")
+  society     Society  @relation(fields: [societyId], references: [id])
+}
+
+model Dish {
+  id          String   @id @default(uuid())
+  name        String
+  price       Float
+  quantity    Int
+  mediaUrl    String?
+  calories    Int?
+  healthScore Float?
+  isVeg       Boolean  @default(false)
+  tags        String[]
+  isSoldOut   Boolean  @default(false)
+  chefId      String
+  societyId   String
+  createdAt   DateTime @default(now())
+  Chef        User     @relation("ChefDishes", fields: [chefId], references: [id])
+  Society     Society  @relation(fields: [societyId], references: [id])
+  Orders      Order[]
+}
+
+model Order {
+  id         String      @id @default(uuid())
+  status     OrderStatus @default(PENDING)
+  dishId     String
+  customerId String
+  riderId    String?
+  societyId  String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  Customer   User        @relation("CustomerOrders", fields: [customerId], references: [id])
+  Dish       Dish        @relation(fields: [dishId], references: [id])
+  Rider      User?       @relation("RiderOrders", fields: [riderId], references: [id])
+  Society    Society     @relation(fields: [societyId], references: [id])
+}
+
+enum Role {
+  CHEF
+  RESIDENT
+  RIDER
+}
+
+enum OrderStatus {
+  PENDING
+  ASSIGNED
+  ACCEPTED
+  PICKED_UP
+  DELIVERED
+  CANCELLED
+}

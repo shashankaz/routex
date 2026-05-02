@@ -7,12 +7,14 @@ import compression from "compression";
 import helmet from "helmet";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import swaggerUi from "swagger-ui-express";
 
 import { router } from "./routes/v1/index.js";
 import { AppError } from "./shared/app-error.js";
 import { sendError } from "./shared/api-response.js";
 import { env } from "./config/config.js";
 import { disconnectPrisma } from "./utils/db.js";
+import { swaggerSpec } from "./config/swagger.js";
 
 const app = express();
 
@@ -36,7 +38,7 @@ app.use(
 );
 
 app.use(compression());
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
 
 morgan.token("localdate", function () {
   return new Date().toISOString().replace("Z", "");
@@ -48,6 +50,12 @@ app.use(
 );
 
 app.use(cookieParser());
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.get("/api-docs.json", (_req: Request, res: Response) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swaggerSpec);
+});
 
 app.get("/", (_req: Request, res: Response) => {
   res.json({ success: true, message: "RouteX API is LIVE!" });

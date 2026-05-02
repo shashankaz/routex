@@ -5,6 +5,7 @@ type FeedQuery = {
   lowCalorie?: string;
   veg?: string;
   highProtein?: string;
+  mealSlot?: string;
 };
 
 export const getFeedService = async ({
@@ -31,6 +32,13 @@ export const getFeedService = async ({
     where.tags = { has: "High Protein" };
   }
 
+  if (query.mealSlot && ["BREAKFAST", "LUNCH", "DINNER"].includes(query.mealSlot)) {
+    where.OR = [
+      { mealSlot: query.mealSlot as "BREAKFAST" | "LUNCH" | "DINNER" },
+      { mealSlot: "ANY" },
+    ];
+  }
+
   const dishes = await prisma.dish.findMany({
     where,
     include: {
@@ -50,8 +58,9 @@ export const getFeedService = async ({
     tags: dish.tags,
     mediaUrl: dish.mediaUrl,
     isSoldOut: dish.isSoldOut,
+    mealSlot: dish.mealSlot,
     chefId: dish.Chef.id,
-    chefName: dish.Chef.name,
+    Chef: { id: dish.Chef.id, name: dish.Chef.name },
     createdAt: dish.createdAt,
   }));
 };

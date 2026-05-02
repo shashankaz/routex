@@ -7,6 +7,7 @@ export const getFeed = asyncHandler(async (req: Request, res: Response) => {
   const lowCalorie = req.query.lowCalorie as string | undefined;
   const veg = req.query.veg as string | undefined;
   const highProtein = req.query.highProtein as string | undefined;
+  const mealSlot = req.query.mealSlot as string | undefined;
 
   const dishes = await getFeedService({
     societyId: req.user.societyId,
@@ -14,6 +15,7 @@ export const getFeed = asyncHandler(async (req: Request, res: Response) => {
       lowCalorie,
       veg,
       highProtein,
+      mealSlot,
     },
   });
 

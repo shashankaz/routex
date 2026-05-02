@@ -9,10 +9,11 @@ import {
   updateDishService,
   markDishSoldOutService,
   restockDishService,
+  getChefAnalyticsService,
 } from "./dish.service.js";
 
 export const createDish = asyncHandler(async (req: Request, res: Response) => {
-  const { name, price, quantity, mediaUrl } = req.body;
+  const { name, price, quantity, mediaUrl, mealSlot } = req.body;
 
   if (!name || price === undefined || quantity === undefined) {
     throw new AppError("name, price, and quantity are required", 400);
@@ -26,6 +27,7 @@ export const createDish = asyncHandler(async (req: Request, res: Response) => {
       price: Number(price),
       quantity: Number(quantity),
       mediaUrl,
+      mealSlot,
     },
   });
 
@@ -51,18 +53,20 @@ export const updateDish = asyncHandler(async (req: Request, res: Response) => {
   const id = req.params.id as unknown as string;
   if (!id) throw new AppError("Dish id is required", 400);
 
-  const { name, price, quantity, mediaUrl } = req.body as {
+  const { name, price, quantity, mediaUrl, mealSlot } = req.body as {
     name?: string;
     price?: number;
     quantity?: number;
     mediaUrl?: string;
+    mealSlot?: string;
   };
 
   if (
     name === undefined &&
     price === undefined &&
     quantity === undefined &&
-    mediaUrl === undefined
+    mediaUrl === undefined &&
+    mealSlot === undefined
   ) {
     throw new AppError("At least one field to update is required", 400);
   }
@@ -75,6 +79,9 @@ export const updateDish = asyncHandler(async (req: Request, res: Response) => {
       ...(price !== undefined ? { price: Number(price) } : {}),
       ...(quantity !== undefined ? { quantity: Number(quantity) } : {}),
       ...(mediaUrl !== undefined ? { mediaUrl } : {}),
+      ...(mealSlot !== undefined
+        ? { mealSlot: mealSlot as "BREAKFAST" | "LUNCH" | "DINNER" | "ANY" }
+        : {}),
     },
   });
 
@@ -110,3 +117,11 @@ export const restockDish = asyncHandler(async (req: Request, res: Response) => {
 
   sendSuccess(res, 200, "Dish restocked successfully", { dish });
 });
+
+export const getChefAnalytics = asyncHandler(
+  async (req: Request, res: Response) => {
+    const analytics = await getChefAnalyticsService({ chefId: req.user.id });
+    
+    sendSuccess(res, 200, "Chef analytics retrieved", { analytics });
+  },
+);

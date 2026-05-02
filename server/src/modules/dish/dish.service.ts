@@ -2,11 +2,14 @@ import { prisma } from "../../utils/db.js";
 import { AppError } from "../../shared/app-error.js";
 import { estimateNutrition } from "../ai/ai.service.js";
 
+type MealSlot = "BREAKFAST" | "LUNCH" | "DINNER" | "ANY";
+
 type CreateDishInput = {
   name: string;
   price: number;
   quantity: number;
   mediaUrl?: string;
+  mealSlot?: MealSlot;
 };
 
 type UpdateDishInput = {
@@ -14,6 +17,7 @@ type UpdateDishInput = {
   price?: number;
   quantity?: number;
   mediaUrl?: string;
+  mealSlot?: MealSlot;
 };
 
 const DISH_SELECT = {
@@ -27,6 +31,7 @@ const DISH_SELECT = {
   isVeg: true,
   tags: true,
   isSoldOut: true,
+  mealSlot: true,
   chefId: true,
   societyId: true,
   createdAt: true,
@@ -42,7 +47,7 @@ export const createDishService = async ({
   societyId: string;
   data: CreateDishInput;
 }) => {
-  const { name, price, quantity, mediaUrl } = data;
+  const { name, price, quantity, mediaUrl, mealSlot } = data;
 
   if (!name || name.trim().length < 2) {
     throw new AppError("Dish name is required (min 2 chars)", 400);
@@ -62,6 +67,7 @@ export const createDishService = async ({
       healthScore,
       isVeg,
       tags,
+      mealSlot: mealSlot ?? "ANY",
       chefId,
       societyId,
     },
@@ -98,7 +104,7 @@ export const updateDishService = async ({
   const dish = await prisma.dish.findFirst({ where: { id: dishId, chefId } });
   if (!dish) throw new AppError("Dish not found or not owned by you", 404);
 
-  const { name, price, quantity, mediaUrl } = data;
+  const { name, price, quantity, mediaUrl, mealSlot } = data;
 
   if (name !== undefined && name.trim().length < 2) {
     throw new AppError("Dish name must be at least 2 characters", 400);
@@ -135,6 +141,7 @@ export const updateDishService = async ({
         ? { quantity, isSoldOut: quantity === 0 }
         : {}),
       ...(mediaUrl !== undefined ? { mediaUrl } : {}),
+      ...(mealSlot !== undefined ? { mealSlot } : {}),
       ...aiFields,
     },
     select: DISH_SELECT,
@@ -176,4 +183,63 @@ export const restockDishService = async ({
     data: { isSoldOut: false, quantity },
     select: DISH_SELECT,
   });
+};
+
+export const getChefAnalyticsService = async ({
+  chefId,
+}: {
+  chefId: string;
+}) => {
+  const dishes = await prisma.dish.findMany({
+    where: { chefId },
+    include: {
+      Orders: {
+        where: {
+          status: { in: ["DELIVERED", "PICKED_UP", "ACCEPTED", "ASSIGNED"] },
+        },
+        select: { id: true, status: true, createdAt: true },
+      },
+    },
+  });
+
+  const totalDishes = dishes.length;
+  const activeDishes = dishes.filter((d) => !d.isSoldOut).length;
+
+  let totalOrders = 0;
+  let totalRevenue = 0;
+  let deliveredOrders = 0;
+
+  const dishBreakdown = dishes.map((dish) => {
+    const orders = dish.Orders.length;
+    const delivered = dish.Orders.filter(
+      (o) => o.status === "DELIVERED",
+    ).length;
+    const revenue = dish.price * delivered;
+    totalOrders += orders;
+    totalRevenue += revenue;
+    deliveredOrders += delivered;
+    return {
+      id: dish.id,
+      name: dish.name,
+      price: dish.price,
+      orders,
+      delivered,
+      revenue,
+      healthScore: dish.healthScore,
+      calories: dish.calories,
+      tags: dish.tags,
+    };
+  });
+
+  const topDish = dishBreakdown.sort((a, b) => b.orders - a.orders)[0] ?? null;
+
+  return {
+    totalDishes,
+    activeDishes,
+    totalOrders,
+    deliveredOrders,
+    totalRevenue,
+    topDish,
+    dishes: dishBreakdown,
+  };
 };

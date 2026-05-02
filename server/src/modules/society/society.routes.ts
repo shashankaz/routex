@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { requireAuthenticatedUser } from "../../middlewares/require-authenticated-user.middleware";
 import {
   getAllSocieties,
   createSociety,
@@ -73,9 +72,7 @@ router.get("/:id", getSocietyById);
  *   post:
  *     tags: [Societies]
  *     summary: Create a society
- *     description: Creates a new housing society. Requires authentication.
- *     security:
- *       - cookieAuth: []
+*     description: Creates a new housing society. Public endpoint used during signup when a resident, chef, or rider creates a new society.
  *     requestBody:
  *       required: true
  *       content:
@@ -103,12 +100,7 @@ router.get("/:id", getSocietyById);
  *         content:
  *           application/json:
  *             schema: { $ref: '#/components/schemas/ErrorResponse' }
- *       401:
- *         description: Not authenticated
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/ErrorResponse' }
  */
-router.post("/", requireAuthenticatedUser, createSociety);
+router.post("/", createSociety);
 
 export { router as societyRoutes };

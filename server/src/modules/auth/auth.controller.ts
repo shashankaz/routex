@@ -154,13 +154,17 @@ export const getUserProfile = asyncHandler(
       throw new AppError("Unauthorized", 401);
     }
 
-    const { id, name, email, role } = user;
+    const { id, name, email, role, societyId, isAvailable, lat, lng } = user;
 
     sendSuccess(res, 200, "User profile retrieved successfully", {
       id,
       name,
       email,
       role,
+      societyId,
+      isAvailable,
+      lat,
+      lng,
     });
   },
 );

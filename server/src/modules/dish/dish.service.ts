@@ -55,7 +55,10 @@ export const createDishService = async ({
   if (price <= 0) throw new AppError("Price must be greater than 0", 400);
   if (quantity < 1) throw new AppError("Quantity must be at least 1", 400);
 
-  const { calories, healthScore, isVeg, tags } = estimateNutrition(name);
+  const { calories, healthScore, isVeg, tags } = await estimateNutrition(
+    name.trim(),
+    mediaUrl,
+  );
 
   return prisma.dish.create({
     data: {
@@ -122,8 +125,17 @@ export const updateDishService = async ({
     isVeg?: boolean;
     tags?: string[];
   } = {};
-  if (name !== undefined) {
-    const result = estimateNutrition(name.trim());
+
+  const nameChanged = name !== undefined;
+  const imageChanged = mediaUrl !== undefined;
+
+  if (nameChanged || imageChanged) {
+    const dishNameForAI = (name ?? dish.name).trim();
+    const imageUrlForAI = imageChanged
+      ? mediaUrl
+      : (dish.mediaUrl ?? undefined);
+
+    const result = await estimateNutrition(dishNameForAI, imageUrlForAI);
     aiFields = {
       calories: result.calories,
       healthScore: result.healthScore,

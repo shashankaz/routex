@@ -1,4 +1,4 @@
-import { StatusCodes } from "./http-status-code.js";
+import { StatusCodes } from "./http-status-code";
 
 export class AppError extends Error {
   public readonly statusCode: StatusCodes;

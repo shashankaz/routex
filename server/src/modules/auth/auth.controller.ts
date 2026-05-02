@@ -5,11 +5,11 @@ import {
   logoutUserService,
   refreshAccessTokenService,
   registerUserService,
-} from "./auth.service.js";
-import { env } from "../../config/config.js";
-import { sendSuccess } from "../../shared/api-response.js";
-import { AppError } from "../../shared/app-error.js";
-import { asyncHandler } from "../../shared/async-handler.js";
+} from "./auth.service";
+import { env } from "../../config/config";
+import { sendSuccess } from "../../shared/api-response";
+import { AppError } from "../../shared/app-error";
+import { asyncHandler } from "../../shared/async-handler";
 import type { Role } from "@prisma/client";
 
 const isProduction = env.NODE_ENV === "production";

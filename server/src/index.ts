@@ -9,12 +9,12 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import swaggerUi from "swagger-ui-express";
 
-import { router } from "./routes/v1/index.js";
-import { AppError } from "./shared/app-error.js";
-import { sendError } from "./shared/api-response.js";
-import { env } from "./config/config.js";
-import { swaggerSpec } from "./config/swagger.js";
-import { PrismaService } from "./utils/db.js";
+import { router } from "./routes/v1/index";
+import { AppError } from "./shared/app-error";
+import { sendError } from "./shared/api-response";
+import { env } from "./config/config";
+import { swaggerSpec } from "./config/swagger";
+import { PrismaService } from "./utils/db";
 
 const app = express();
 

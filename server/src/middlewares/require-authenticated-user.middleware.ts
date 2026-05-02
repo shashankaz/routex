@@ -1,9 +1,9 @@
 import type { NextFunction, Request, Response } from "express";
 
-import { verifyAccessToken } from "../utils/jwt.js";
-import { requireActiveUserByIdService } from "../modules/auth/auth.service.js";
-import { AppError } from "../shared/app-error.js";
-import { asyncHandler } from "../shared/async-handler.js";
+import { verifyAccessToken } from "../utils/jwt";
+import { requireActiveUserByIdService } from "../modules/auth/auth.service";
+import { AppError } from "../shared/app-error";
+import { asyncHandler } from "../shared/async-handler";
 
 export const requireAuthenticatedUser = asyncHandler(
   async (req: Request, _res: Response, next: NextFunction): Promise<void> => {

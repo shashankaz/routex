@@ -1,5 +1,5 @@
-import { prisma } from "../../utils/db.js";
-import { AppError } from "../../shared/app-error.js";
+import { prisma } from "../../utils/db";
+import { AppError } from "../../shared/app-error";
 
 export const getAllSocietiesService = async () => {
   return prisma.society.findMany({

@@ -1,12 +1,12 @@
 import type { Request, Response } from "express";
-import { asyncHandler } from "../../shared/async-handler.js";
-import { sendSuccess } from "../../shared/api-response.js";
-import { AppError } from "../../shared/app-error.js";
+import { asyncHandler } from "../../shared/async-handler";
+import { sendSuccess } from "../../shared/api-response";
+import { AppError } from "../../shared/app-error";
 import {
   getAllSocietiesService,
   createSocietyService,
   getSocietyByIdService,
-} from "./society.service.js";
+} from "./society.service";
 
 export const getAllSocieties = asyncHandler(
   async (_req: Request, res: Response) => {

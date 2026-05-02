@@ -1,5 +1,5 @@
-import { prisma } from "../../utils/db.js";
-import { AppError } from "../../shared/app-error.js";
+import { prisma } from "../../utils/db";
+import { AppError } from "../../shared/app-error";
 import type { OrderStatus } from "@prisma/client";
 
 const ALLOWED_RIDER_TRANSITIONS: Record<string, OrderStatus[]> = {

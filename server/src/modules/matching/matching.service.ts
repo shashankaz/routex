@@ -1,5 +1,5 @@
-import { prisma } from "../../utils/db.js";
-import { calculateDistance } from "../../utils/distance.js";
+import { prisma } from "../../utils/db";
+import { calculateDistance } from "../../utils/distance";
 
 const MAX_RIDER_DISTANCE_KM = 2;
 

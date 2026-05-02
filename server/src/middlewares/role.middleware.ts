@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
-import { AppError } from "../shared/app-error.js";
+import { AppError } from "../shared/app-error";
 import type { Role } from "@prisma/client";
 
 export const requireRole = (...roles: Role[]) => {

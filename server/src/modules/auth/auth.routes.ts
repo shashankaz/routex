@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { createRateLimiter } from "../../middlewares/rate-limiter.middleware.js";
-import { requireAuthenticatedUser } from "../../middlewares/require-authenticated-user.middleware.js";
+import { createRateLimiter } from "../../middlewares/rate-limiter.middleware";
+import { requireAuthenticatedUser } from "../../middlewares/require-authenticated-user.middleware";
 import {
   getUserProfile,
   loginUser,
   logoutUser,
   refreshAccessToken,
   registerUser,
-} from "./auth.controller.js";
+} from "./auth.controller";
 
 const router = Router();
 

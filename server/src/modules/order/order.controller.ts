@@ -1,12 +1,12 @@
 import type { Request, Response } from "express";
-import { asyncHandler } from "../../shared/async-handler.js";
-import { sendSuccess } from "../../shared/api-response.js";
-import { AppError } from "../../shared/app-error.js";
+import { asyncHandler } from "../../shared/async-handler";
+import { sendSuccess } from "../../shared/api-response";
+import { AppError } from "../../shared/app-error";
 import {
   placeOrderService,
   getMyOrdersService,
   cancelOrderService,
-} from "./order.service.js";
+} from "./order.service";
 
 export const placeOrder = asyncHandler(async (req: Request, res: Response) => {
   const { dishId } = req.body;

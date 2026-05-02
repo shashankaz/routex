@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { requireAuthenticatedUser } from "../../middlewares/require-authenticated-user.middleware.js";
-import { getFeed } from "./feed.controller.js";
+import { requireAuthenticatedUser } from "../../middlewares/require-authenticated-user.middleware";
+import { getFeed } from "./feed.controller";
 
 const router = Router();
 

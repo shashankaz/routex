@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { requireAuthenticatedUser } from "../../middlewares/require-authenticated-user.middleware.js";
-import { requireRole } from "../../middlewares/role.middleware.js";
+import { requireAuthenticatedUser } from "../../middlewares/require-authenticated-user.middleware";
+import { requireRole } from "../../middlewares/role.middleware";
 import {
   createDish,
   getMyDishes,
@@ -9,7 +9,7 @@ import {
   markSoldOut,
   restockDish,
   getChefAnalytics,
-} from "./dish.controller.js";
+} from "./dish.controller";
 
 const router = Router();
 

@@ -1,6 +1,6 @@
 import jwt, { type JwtPayload } from "jsonwebtoken";
 
-import { env } from "../config/config.js";
+import { env } from "../config/config";
 
 interface TokenPayload extends JwtPayload {
   id: string;

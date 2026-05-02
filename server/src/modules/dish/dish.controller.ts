@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import { asyncHandler } from "../../shared/async-handler.js";
-import { sendSuccess } from "../../shared/api-response.js";
-import { AppError } from "../../shared/app-error.js";
+import { asyncHandler } from "../../shared/async-handler";
+import { sendSuccess } from "../../shared/api-response";
+import { AppError } from "../../shared/app-error";
 import {
   createDishService,
   getMyDishesService,
@@ -10,7 +10,7 @@ import {
   markDishSoldOutService,
   restockDishService,
   getChefAnalyticsService,
-} from "./dish.service.js";
+} from "./dish.service";
 
 export const createDish = asyncHandler(async (req: Request, res: Response) => {
   const { name, price, quantity, mediaUrl, mealSlot } = req.body;
@@ -121,7 +121,7 @@ export const restockDish = asyncHandler(async (req: Request, res: Response) => {
 export const getChefAnalytics = asyncHandler(
   async (req: Request, res: Response) => {
     const analytics = await getChefAnalyticsService({ chefId: req.user.id });
-    
+
     sendSuccess(res, 200, "Chef analytics retrieved", { analytics });
   },
 );

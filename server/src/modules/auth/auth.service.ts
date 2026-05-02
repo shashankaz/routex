@@ -1,11 +1,11 @@
-import { prisma } from "../../utils/db.js";
-import { AppError } from "../../shared/app-error.js";
-import { verifyPassword, hashPassword } from "../../utils/argon2.js";
+import { prisma } from "../../utils/db";
+import { AppError } from "../../shared/app-error";
+import { verifyPassword, hashPassword } from "../../utils/argon2";
 import {
   generateAccessToken,
   generateRefreshToken,
   verifyRefreshToken,
-} from "../../utils/jwt.js";
+} from "../../utils/jwt";
 import type { Role } from "@prisma/client";
 
 export const registerUserService = async ({

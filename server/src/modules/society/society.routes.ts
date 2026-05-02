@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { requireAuthenticatedUser } from "../../middlewares/require-authenticated-user.middleware.js";
+import { requireAuthenticatedUser } from "../../middlewares/require-authenticated-user.middleware";
 import {
   getAllSocieties,
   createSociety,
   getSocietyById,
-} from "./society.controller.js";
+} from "./society.controller";
 
 const router = Router();
 

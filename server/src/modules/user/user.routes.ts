@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { requireAuthenticatedUser } from "../../middlewares/require-authenticated-user.middleware.js";
+import { requireAuthenticatedUser } from "../../middlewares/require-authenticated-user.middleware";
 import {
   getMyProfile,
   updateMyProfile,
   updateMyLocation,
-} from "./user.controller.js";
+} from "./user.controller";
 
 const router = Router();
 

@@ -1,6 +1,6 @@
-import { prisma } from "../../utils/db.js";
-import { AppError } from "../../shared/app-error.js";
-import { estimateNutrition } from "../ai/ai.service.js";
+import { prisma } from "../../utils/db";
+import { AppError } from "../../shared/app-error";
+import { estimateNutrition } from "../ai/ai.service";
 
 type MealSlot = "BREAKFAST" | "LUNCH" | "DINNER" | "ANY";
 

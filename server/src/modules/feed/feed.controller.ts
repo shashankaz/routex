@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import { asyncHandler } from "../../shared/async-handler.js";
-import { sendSuccess } from "../../shared/api-response.js";
-import { getFeedService } from "./feed.service.js";
+import { asyncHandler } from "../../shared/async-handler";
+import { sendSuccess } from "../../shared/api-response";
+import { getFeedService } from "./feed.service";
 
 export const getFeed = asyncHandler(async (req: Request, res: Response) => {
   const lowCalorie = req.query.lowCalorie as string | undefined;

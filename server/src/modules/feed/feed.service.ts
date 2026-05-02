@@ -1,4 +1,4 @@
-import { prisma } from "../../utils/db.js";
+import { prisma } from "../../utils/db";
 import type { Prisma } from "@prisma/client";
 
 type FeedQuery = {

@@ -1,6 +1,6 @@
 import { Response } from "express";
 
-import { StatusCodes } from "./http-status-code.js";
+import { StatusCodes } from "./http-status-code";
 
 export type ApiSuccess<T> = {
   success: true;

@@ -6,7 +6,7 @@ import {
   generateRefreshToken,
   verifyRefreshToken,
 } from "../../utils/jwt.js";
-import type { Role } from "../../../generated/prisma/client.js";
+import type { Role } from "@prisma/client";
 
 export const registerUserService = async ({
   name,

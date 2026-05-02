@@ -6,15 +6,17 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
+    "watch": "tsc --watch",
     "start": "node dist/index.js",
-    "start:build": "npm run build && npm run start"
+    "generate": "prisma generate",
+    "migrate": "prisma migrate dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@prisma/client": "^7.8.0",
+    "@prisma/client": "^6.9.0",
     "argon2": "^0.44.0",
     "body-parser": "^2.2.2",
     "compression": "^1.8.1",
@@ -38,11 +40,12 @@
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/morgan": "^1.9.10",
+    "@types/node": "^25.6.0",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
-    "@types/node": "^25.6.0",
-    "prisma": "^7.8.0",
+    "nodemon": "^3.1.14",
+    "prisma": "^6.19.3",
     "tsx": "^4.21.0",
-    "typescript": "^6.0.3"
+    "typescript": "^5.8.3"
   }
 }

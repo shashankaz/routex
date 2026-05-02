@@ -1,6 +1,6 @@
 import { prisma } from "../../utils/db.js";
 import { AppError } from "../../shared/app-error.js";
-import type { OrderStatus } from "../../../generated/prisma/client.js";
+import type { OrderStatus } from "@prisma/client";
 
 const ALLOWED_RIDER_TRANSITIONS: Record<string, OrderStatus[]> = {
   ASSIGNED: ["ACCEPTED"],

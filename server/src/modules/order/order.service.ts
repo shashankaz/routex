@@ -1,7 +1,7 @@
 import { prisma } from "../../utils/db.js";
 import { AppError } from "../../shared/app-error.js";
 import { assignNearestRider } from "../matching/matching.service.js";
-import type { Role } from "../../../generated/prisma/client.js";
+import type { Role } from "@prisma/client";
 
 export const placeOrderService = async ({
   customerId,

@@ -1,5 +1,5 @@
 import { prisma } from "../../utils/db.js";
-import type { Prisma } from "../../../generated/prisma/client.js";
+import type { Prisma } from "@prisma/client";
 
 type FeedQuery = {
   lowCalorie?: string;
@@ -32,7 +32,10 @@ export const getFeedService = async ({
     where.tags = { has: "High Protein" };
   }
 
-  if (query.mealSlot && ["BREAKFAST", "LUNCH", "DINNER"].includes(query.mealSlot)) {
+  if (
+    query.mealSlot &&
+    ["BREAKFAST", "LUNCH", "DINNER"].includes(query.mealSlot)
+  ) {
     where.OR = [
       { mealSlot: query.mealSlot as "BREAKFAST" | "LUNCH" | "DINNER" },
       { mealSlot: "ANY" },

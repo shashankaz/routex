@@ -13,8 +13,8 @@ import { router } from "./routes/v1/index.js";
 import { AppError } from "./shared/app-error.js";
 import { sendError } from "./shared/api-response.js";
 import { env } from "./config/config.js";
-import { disconnectPrisma } from "./utils/db.js";
 import { swaggerSpec } from "./config/swagger.js";
+import { PrismaService } from "./utils/db.js";
 
 const app = express();
 
@@ -100,7 +100,7 @@ const shutdown = async (signal: string) => {
   console.log(`${signal} received — shutting down gracefully`);
 
   server.close(async () => {
-    await disconnectPrisma();
+    await PrismaService.disconnect();
     console.log("[RouteX] Prisma disconnected. Exiting.");
     process.exit(0);
   });

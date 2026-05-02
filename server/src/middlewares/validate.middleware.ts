@@ -8,7 +8,7 @@ export const validate = (schema: ZodSchema) => {
     if (!result.success) {
       return next(
         new AppError(
-          result.error.errors.map((e) => e.message).join(", "),
+          result.error.issues.map((issue) => issue.message).join(", "),
           400,
         ),
       );

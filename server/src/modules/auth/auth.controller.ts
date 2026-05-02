@@ -10,7 +10,7 @@ import { env } from "../../config/config.js";
 import { sendSuccess } from "../../shared/api-response.js";
 import { AppError } from "../../shared/app-error.js";
 import { asyncHandler } from "../../shared/async-handler.js";
-import type { Role } from "../../../generated/prisma/client.js";
+import type { Role } from "@prisma/client";
 
 const isProduction = env.NODE_ENV === "production";
 

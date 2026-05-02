@@ -4,6 +4,9 @@ CREATE TYPE "Role" AS ENUM ('CHEF', 'RESIDENT', 'RIDER');
 -- CreateEnum
 CREATE TYPE "OrderStatus" AS ENUM ('PENDING', 'ASSIGNED', 'ACCEPTED', 'PICKED_UP', 'DELIVERED', 'CANCELLED');
 
+-- CreateEnum
+CREATE TYPE "MealSlot" AS ENUM ('BREAKFAST', 'LUNCH', 'DINNER', 'ANY');
+
 -- CreateTable
 CREATE TABLE "Society" (
     "id" TEXT NOT NULL,
@@ -38,7 +41,10 @@ CREATE TABLE "Dish" (
     "mediaUrl" TEXT,
     "calories" INTEGER,
     "healthScore" DOUBLE PRECISION,
+    "isVeg" BOOLEAN NOT NULL DEFAULT false,
+    "tags" TEXT[],
     "isSoldOut" BOOLEAN NOT NULL DEFAULT false,
+    "mealSlot" "MealSlot" NOT NULL DEFAULT 'ANY',
     "chefId" TEXT NOT NULL,
     "societyId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -73,10 +79,10 @@ ALTER TABLE "Dish" ADD CONSTRAINT "Dish_chefId_fkey" FOREIGN KEY ("chefId") REFE
 ALTER TABLE "Dish" ADD CONSTRAINT "Dish_societyId_fkey" FOREIGN KEY ("societyId") REFERENCES "Society"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Order" ADD CONSTRAINT "Order_dishId_fkey" FOREIGN KEY ("dishId") REFERENCES "Dish"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Order" ADD CONSTRAINT "Order_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Order" ADD CONSTRAINT "Order_customerId_fkey" FOREIGN KEY ("customerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Order" ADD CONSTRAINT "Order_dishId_fkey" FOREIGN KEY ("dishId") REFERENCES "Dish"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Order" ADD CONSTRAINT "Order_riderId_fkey" FOREIGN KEY ("riderId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;

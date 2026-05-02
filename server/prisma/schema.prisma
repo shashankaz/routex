@@ -44,6 +44,7 @@ model Dish {
   isVeg       Boolean  @default(false)
   tags        String[]
   isSoldOut   Boolean  @default(false)
+  mealSlot    MealSlot @default(ANY)
   chefId      String
   societyId   String
   createdAt   DateTime @default(now())
@@ -80,4 +81,11 @@ enum OrderStatus {
   PICKED_UP
   DELIVERED
   CANCELLED
+}
+
+enum MealSlot {
+  BREAKFAST
+  LUNCH
+  DINNER
+  ANY
 }
